@@ -6,6 +6,7 @@ from GUI.inputgui import inputGui
 from tkinter import *
 
 import pygame
+import time
 
 def print_board():
     screen.fill(DARKGREY)
@@ -131,6 +132,8 @@ exe.run()
 gamestate = 0
 """Main game loop
 """
+start=time.time()
+print("hello")
 while not program_end and gamestate == 0:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -168,4 +171,7 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0)
     winCase.mainloop()
+
+end=time.time()
+print(end-start)
 pygame.quit()
