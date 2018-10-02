@@ -164,11 +164,33 @@ while not program_end and gamestate == 0:
     clock.tick(60)
 
 if (gamestate == 2):
+    end = time.time()
+    timeTaken = (end - start)
+
+    timeApprox = round(timeTaken, 2)
+    timeApproxStr = str(timeApprox)
+    print(timeApproxStr)
+    clickRate = clickCount / timeTaken
+    print(clickRate)
+    clickRateApprox = round(clickRate, 2)
+    clickRateStr = str(clickRateApprox)
+    print(clickRateStr)
+    score = 100 * clickRateApprox
+    score = round(score, 2)
+    score = str(score)
+    print(score)
+    scoreMsg = "Not so great. \n  You took " + timeApproxStr
+    scoreMsg = scoreMsg + " seconds to lose. \n You clicked at a rate of "
+    scoreMsg = scoreMsg + clickRateStr
+    scoreMsg = scoreMsg + " clicks/sec \n This means your score is: " + score + "\n keep in mind "
+    scoreMsg = scoreMsg + "only winning scores are recorded."
+
     exe.gameBoard.reveal_all()
     print_board()
     loseCase = Tk()
     loseCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(loseCase, text="YOU LOSE!!", ).grid(row=0)
+    Label(loseCase, text=scoreMsg, ).grid(row=1, column=1)
     loseCase.mainloop()
 elif (gamestate == 1):
     end = time.time()
@@ -180,24 +202,24 @@ elif (gamestate == 1):
     clickRate = clickCount / timeTaken
     print(clickRate)
     clickRateApprox = round(clickRate, 2)
-    clickRateStr = round(clickRateApprox,2)
+    clickRateStr = str(clickRateApprox)
     print(clickRateStr)
     score = 100*clickRateApprox
     score = round(score, 2)
     score = str(score)
     print(score)
-    scoreMsg = "Nice job.  You took " + timeApproxStr
-    scoreMsg = scoreMsg + "seconds to finish and you clicked at a rate of "
+    scoreMsg = "Nice job. \n  You took " + timeApproxStr
+    scoreMsg = scoreMsg + " seconds to finish. \n You clicked at a rate of "
     scoreMsg = scoreMsg + clickRateStr
-    scoreMsg = scoreMsg + " clicks/sec  This means your score is: " + score
-    print(scoreMsg)
+    scoreMsg = scoreMsg + " clicks/sec \n This means your score is: " + score
+
     winCase = Tk()
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0)
-    Label(winCase, text="fuck off",).grid(row=1, column=0)
+    Label(winCase, text=scoreMsg,).grid(row=1, column=1)
 
     winCase.mainloop()
 
 end = time.time()
-print("shut up")
+
 pygame.quit()
