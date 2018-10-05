@@ -193,7 +193,7 @@ if (gamestate == 2):
     print_board()
     loseCase = Tk()
     loseCase.iconbitmap('GUI/MemoryLeakLogo.ico')
-    Label(loseCase, text="YOU LOSE!!", ).grid(row=0)
+    Label(loseCase, text="YOU LOSE!!", ).grid(row=0, column=1)
     Label(loseCase, text=scoreMsg, ).grid(row=1, column=1)
     loseCase.mainloop()
 elif (gamestate == 1):
@@ -226,7 +226,7 @@ elif (gamestate == 1):
 
     winCase = Tk()
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
-    Label(winCase, text="YOU WIN!!", ).grid(row=0)
+    Label(winCase, text="YOU WIN!!", ).grid(row=0 ,column=1)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
     text_file.write(scoreMsg)
     text_file.close()
