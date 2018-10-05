@@ -6,7 +6,7 @@ from GUI.inputgui import inputGui
 from tkinter import *
 
 import pygame
-import time
+import uuid
 import time
 import random
 import datetime
@@ -62,13 +62,7 @@ h=2
 b=1
 incorrect = True
 clickCount = 0
-randomNum = random.randint(1,100)
-randomNumStr = str(randomNum)
-number = time.time()
-number = datetime.datetime.today().strftime('%Y-%m-%d')
-numberStr = str(number)
-textFileName = "Scores" + numberStr + "-" + randomNumStr + ".txt"
-text_file = open(textFileName, "w")
+
 
 while (incorrect == True):
     try:
@@ -172,6 +166,8 @@ while not program_end and gamestate == 0:
     clock.tick(60)
 
 if (gamestate == 2):
+
+
     end = time.time()
     timeTaken = (end - start)
 
@@ -201,6 +197,11 @@ if (gamestate == 2):
     Label(loseCase, text=scoreMsg, ).grid(row=1, column=1)
     loseCase.mainloop()
 elif (gamestate == 1):
+    textFileName = str(row) + "x" + str(column) + " Scores"
+    randomID = str(uuid.uuid1())[:4]
+    textFileName = textFileName + "- " + randomID + ".txt"
+    text_file = open(textFileName, "w")
+
     end = time.time()
     timeTaken = (end - start)
 
@@ -227,10 +228,6 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
-    rowStr = str(row)
-    colStr = str(column)
-    dimensionsStr = rowStr + " x " + colStr + " board score\n" + "\n"
-    text_file.write(dimensionsStr)
     text_file.write(scoreMsg)
     text_file.close()
     winCase.mainloop()
