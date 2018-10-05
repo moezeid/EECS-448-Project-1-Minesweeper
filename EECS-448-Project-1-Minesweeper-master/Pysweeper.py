@@ -8,7 +8,8 @@ from tkinter import *
 import pygame
 import time
 import time
-
+import random
+import datetime
 def print_board():
     screen.fill(DARKGREY)
     for i in range(row):
@@ -61,6 +62,13 @@ h=2
 b=1
 incorrect = True
 clickCount = 0
+randomNum = random.randint(1,100)
+randomNumStr = str(randomNum)
+number = time.time()
+number = datetime.datetime.today().strftime('%Y-%m-%d')
+numberStr = str(number)
+textFileName = "Scores" + numberStr + "-" + randomNumStr + ".txt"
+text_file = open(textFileName, "w")
 
 while (incorrect == True):
     try:
@@ -136,7 +144,7 @@ gamestate = 0
 start=time.time()
 
 
-print("hello")
+
 while not program_end and gamestate == 0:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -169,16 +177,16 @@ if (gamestate == 2):
 
     timeApprox = round(timeTaken, 2)
     timeApproxStr = str(timeApprox)
-    print(timeApproxStr)
+
     clickRate = clickCount / timeTaken
-    print(clickRate)
+
     clickRateApprox = round(clickRate, 2)
     clickRateStr = str(clickRateApprox)
-    print(clickRateStr)
+
     score = 100 * clickRateApprox
     score = round(score, 2)
     score = str(score)
-    print(score)
+
     scoreMsg = "Not so great. \n  You took " + timeApproxStr
     scoreMsg = scoreMsg + " seconds to lose. \n You clicked at a rate of "
     scoreMsg = scoreMsg + clickRateStr
@@ -198,18 +206,20 @@ elif (gamestate == 1):
 
     timeApprox = round(timeTaken, 2)
     timeApproxStr = str(timeApprox)
-    print(timeApproxStr)
+
     clickRate = clickCount / timeTaken
-    print(clickRate)
+
     clickRateApprox = round(clickRate, 2)
     clickRateStr = str(clickRateApprox)
-    print(clickRateStr)
+
     score = 100*clickRateApprox
     score = round(score, 2)
     score = str(score)
-    print(score)
+    winFileMsg = "You took " + timeApproxStr + " seconds to finish. \n You click at a rate of "
+    winFileMsg = winFileMsg + clickRateStr
+    winFileMsg = winFileMsg + " clicks/sec \n This means your score is: " + score
     scoreMsg = "Nice job. \n  You took " + timeApproxStr
-    scoreMsg = scoreMsg + " seconds to finish. \n You clicked at a rate of "
+    scoreMsg = scoreMsg + " seconds to finish. \n You click at a rate of "
     scoreMsg = scoreMsg + clickRateStr
     scoreMsg = scoreMsg + " clicks/sec \n This means your score is: " + score
 
@@ -217,7 +227,12 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
-
+    rowStr = str(row)
+    colStr = str(column)
+    dimensionsStr = rowStr + " x " + colStr + " board score\n" + "\n"
+    text_file.write(dimensionsStr)
+    text_file.write(scoreMsg)
+    text_file.close()
     winCase.mainloop()
 
 end = time.time()
