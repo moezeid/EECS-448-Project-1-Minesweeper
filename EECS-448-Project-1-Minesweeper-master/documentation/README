@@ -2,4 +2,6 @@ Use logic and skill to demilitarize a grey grid of their mine problem in Pysweep
 
 Libraries used are Tkinter and Pygame for user input and GUI
 
+Open html\index.html to view documentation
+
 Run Pysweeper.py to Run game
