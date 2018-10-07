@@ -12,6 +12,7 @@ import uuid
 import time
 import random
 import datetime
+import os.path
 
 def print_board2():
     screen.fill(DARKGREY)
@@ -106,7 +107,11 @@ h=2
 b=1
 incorrect = True
 clickCount = 0
-
+#sound effects
+winSound = pygame.mixer.Sound("soundEffects/Applause.wav")
+loseSound = pygame.mixer.Sound("soundEffects/Explosion.wav")
+revealSound = pygame.mixer.Sound("soundEffects/Click.wav")
+flagSound = pygame.mixer.Sound("soundEffects/Ding-flag.wav")
 
 while (incorrect == True):
     try:
@@ -222,6 +227,8 @@ while not program_end and gamestate == 0:
                         cheat1.mainloop()
                     else:
                         exe.gameBoard.reveal_tile(c,r)
+                        revealSound.play()
+                        revealSound.set_volume(0.1)
                         clickCount += 1
 
             elif(event.button == 3):
@@ -229,11 +236,9 @@ while not program_end and gamestate == 0:
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 exe.gameBoard.flag_tile(c,r)
+                flagSound.play()
+                flagSound.set_volume(0.1)
 
-            elif(event.type == clockTick): # the clock is ticking
-                #timer
-                second = second +1
-                print(second)
             # print_board()
     if (cheatMode == 1):
         print_board2()
@@ -271,13 +276,13 @@ if (gamestate == 2):
     print_board()
     loseCase = Tk()
     loseCase.iconbitmap('GUI/MemoryLeakLogo.ico')
+    loseSound.play()
+    loseSound.set_volume(1.0)
     Label(loseCase, text="YOU LOSE!!", ).grid(row=0, column=1)
     Label(loseCase, text=scoreMsg, ).grid(row=1, column=1)
     loseCase.mainloop()
 elif (gamestate == 1):
     textFileName = str(row) + "x" + str(column) + " Scores.txt"
-    text_file = open(textFileName, "w")
-
     end = time.time()
     timeTaken = (end - start)
 
@@ -304,7 +309,8 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0 ,column=1)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
-    text_file.close()
+
+
     if(os.path.isfile(textFileName) != True):
         text_file = open(textFileName, "w")
         text_file.write(score+'\n')
@@ -341,7 +347,8 @@ elif (gamestate == 1):
                 file.truncate()
 
     print('The highest score in '+ str(row)+'x'+str(column)+' board is:' + top_five[0])
-
+    winSound.play()
+    winSound.set_volume(1.0)
     winCase.mainloop()
 
 end = time.time()
