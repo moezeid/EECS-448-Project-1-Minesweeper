@@ -11,6 +11,7 @@ import uuid
 import time
 import random
 import datetime
+import os.path
 
 def print_board2():
     screen.fill(DARKGREY)
@@ -305,8 +306,7 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0 ,column=1)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
-    text_file.write(scoreMsg)
-    text_file.close()
+
     if(os.path.isfile(textFileName) != True):
         text_file = open(textFileName, "w")
         text_file.write(score+'\n')
