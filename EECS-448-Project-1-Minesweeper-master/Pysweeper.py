@@ -172,6 +172,15 @@ flag = pygame.image.load("GUI/flag.png")
 
 """Sets clock rate
 """
+
+top_five =[""]*5;
+top_five_count =0;
+second =0
+clockTick = pygame.USEREVENT+1
+pygame.time.set_timer(clockTick, 1000)
+
+
+
 clock = pygame.time.Clock()
 exe = executive(int(w), int(h), int(b))
 exe.run()
@@ -219,6 +228,11 @@ while not program_end and gamestate == 0:
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 exe.gameBoard.flag_tile(c,r)
+
+    if(event.type == clockTick): # the clock is ticking
+        #timer
+        second = second +1
+        print(second)
     # print_board()
     if (cheatMode == 1):
         print_board2()
@@ -293,6 +307,43 @@ elif (gamestate == 1):
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
     text_file.write(scoreMsg)
     text_file.close()
+    if(os.path.isfile(textFileName) != True):
+        text_file = open(textFileName, "w")
+        text_file.write(score+'\n')
+        text_file.close()
+
+    else:
+        with open(textFileName, 'r+') as file:
+            content = file.readlines()
+            for temp in content:
+                top_five_count = top_five_count+1
+
+            if(top_five_count < 5):
+                top_five_count = top_five_count + 1
+                for i in range(top_five_count-1):
+                    top_five[i] = content[i].replace('\n','')
+                top_five[top_five_count-1] = score
+                top_five.sort(reverse=True)
+                file.seek(0)
+                for i in range(top_five_count):
+                    file.write(str(top_five[i])+'\n')
+                file.truncate()
+
+            else:
+
+                for i in range(5):
+                    top_five[i] = content[i].replace('\n','')
+                top_five.sort(reverse=True)
+                if(float(score) > float(top_five[top_five_count-1])):
+                    top_five[top_five_count-1] = score;
+                    top_five.sort(reverse=True)
+                file.seek(0)
+                for i in range(5):
+                    file.write(str(top_five[i])+'\n')
+                file.truncate()
+
+    print('The highest score in '+ str(row)+'x'+str(column)+' board is:' + top_five[0])
+
     winCase.mainloop()
 
 end = time.time()
