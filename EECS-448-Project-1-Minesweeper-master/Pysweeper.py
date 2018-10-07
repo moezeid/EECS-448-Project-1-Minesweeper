@@ -7,6 +7,7 @@ from GUI.inputgui import inputGui
 from tkinter import *
 
 import pygame
+import os.path
 import uuid
 import time
 import random
@@ -229,11 +230,11 @@ while not program_end and gamestate == 0:
                 r = pos[1] // (HEIGHT + MARGIN)
                 exe.gameBoard.flag_tile(c,r)
 
-    if(event.type == clockTick): # the clock is ticking
-        #timer
-        second = second +1
-        print(second)
-    # print_board()
+            elif(event.type == clockTick): # the clock is ticking
+                #timer
+                second = second +1
+                print(second)
+            # print_board()
     if (cheatMode == 1):
         print_board2()
     else:
@@ -274,9 +275,7 @@ if (gamestate == 2):
     Label(loseCase, text=scoreMsg, ).grid(row=1, column=1)
     loseCase.mainloop()
 elif (gamestate == 1):
-    textFileName = str(row) + "x" + str(column) + " Scores"
-    randomID = str(uuid.uuid1())[:4]
-    textFileName = textFileName + "- " + randomID + ".txt"
+    textFileName = str(row) + "x" + str(column) + " Scores.txt"
     text_file = open(textFileName, "w")
 
     end = time.time()
@@ -305,7 +304,6 @@ elif (gamestate == 1):
     winCase.iconbitmap('GUI/MemoryLeakLogo.ico')
     Label(winCase, text="YOU WIN!!", ).grid(row=0 ,column=1)
     Label(winCase, text=scoreMsg,).grid(row=1, column=1)
-    text_file.write(scoreMsg)
     text_file.close()
     if(os.path.isfile(textFileName) != True):
         text_file = open(textFileName, "w")
