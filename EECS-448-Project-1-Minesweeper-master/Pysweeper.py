@@ -1,3 +1,4 @@
+
 # import the pygame library, all this learned from
 # http://programarcadegames.com/index.php?lang=en&chapter=array_backed_grids
 from workspace.tile import tile
@@ -10,7 +11,48 @@ import uuid
 import time
 import random
 import datetime
+
+def print_board2():
+    screen.fill(DARKGREY)
+
+    for i in range(row):
+        for j in range(column):
+            color = GREY
+
+            if exe.cheatBoard.board[j][i].isVisible == False:
+                grid[j][i] = pygame.draw.rect(screen, color,
+                                              [(MARGIN + WIDTH) * j + MARGIN, (HEIGHT + MARGIN) * i + MARGIN, WIDTH,
+                                               HEIGHT])
+
+            if exe.cheatBoard.board[j][i].isVisible == True:
+                color = WHITE
+                grid[j][i] = pygame.draw.rect(screen, color,
+                                              [(MARGIN + WIDTH) * j + MARGIN, (HEIGHT + MARGIN) * i + MARGIN, WIDTH,
+                                               HEIGHT])
+            if exe.cheatBoard.board[j][i].isBomb == True and exe.cheatBoard.board[j][i].isVisible == True:
+                grid[j][i] = pygame.draw.rect(screen, color,
+                                              [(MARGIN + WIDTH) * j + MARGIN, (HEIGHT + MARGIN) * i + MARGIN, WIDTH,
+                                               HEIGHT])
+                temp = grid[j][i].move(-5, -5)
+                screen.blit(bomb, temp)
+            if exe.cheatBoard.board[j][i].adjBomb > 0 and exe.cheatBoard.board[j][i].isVisible == True:
+                temp = grid[j][i].move(5, 5)
+                screen.blit(font.render(str(exe.cheatBoard.board[j][i].adjBomb), True, BLACK), (temp))
+            if exe.cheatBoard.board[j][i].isFlagged == True and exe.cheatBoard.board[j][i].isVisible == False:
+                screen.blit(flag, grid[j][i])
+
+    pygame.draw.rect(screen, (255, 255, 255),
+                     ((column * 20 + MARGIN * column + MARGIN), 0, 100,50))
+    pygame.display.flip()
+
+
+pygame.init()
+pygame.display.init()
+
+
 def print_board():
+    """ handles printing of board. prints updated board onto screen with
+    each successive move """
     screen.fill(DARKGREY)
     for i in range(row):
         for j in range(column):
@@ -37,6 +79,7 @@ def print_board():
                 screen.blit(font.render(str(exe.gameBoard.board[j][i].adjBomb), True, BLACK), (temp))
             if exe.gameBoard.board[j][i].isFlagged == True and exe.gameBoard.board[j][i].isVisible == False:
                 screen.blit(flag,grid[j][i])
+    pygame.draw.rect(screen, (255, 255, 255), ((column * 20 + MARGIN * column + MARGIN), 0, 100, 50))
     pygame.display.flip()
 
 
@@ -97,7 +140,7 @@ while (incorrect == True):
 """calculate the required screen size based on amount of tiles
 """
 screen_width = (int(w) * 20) + ((int(w)+1)*5)
-screen_height = (int(h) * 20) + ((int(h)+1)*5)
+screen_height = (int(h) * 20) + ((int(h)+1)*5 + 100)
 
 """ create the screen surface
 """
@@ -133,6 +176,7 @@ clock = pygame.time.Clock()
 exe = executive(int(w), int(h), int(b))
 exe.run()
 gamestate = 0
+cheatMode= 0
 """Main game loop
 """
 start=time.time()
@@ -146,21 +190,40 @@ while not program_end and gamestate == 0:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if(event.button == 1):
                 pos = pygame.mouse.get_pos()
+                originalc = pos[0]
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 if(c >= column):
                     c = column - 1
                 if(r >= row):
                     r = row - 1
-                exe.gameBoard.reveal_tile(c,r)
-                clickCount += 1
+                if (originalc > (WIDTH + MARGIN) * column):
+                    if (cheatMode == 0):
+                        cheatMode = 1
+                        exe.cheatBoard.reveal_all()
+                        # print_board2()
+                    else:
+                        cheatMode = 0
+                else:
+                    if (cheatMode == 1):
+                        cheat1 = Tk()
+                        cheat1.iconbitmap('GUI/MemoryLeakLogo.ico')
+                        Label(cheat1, text="please exit the cheatMode first!", ).grid(row=0)
+                        cheat1.mainloop()
+                    else:
+                        exe.gameBoard.reveal_tile(c,r)
+                        clickCount += 1
 
             elif(event.button == 3):
                 pos = pygame.mouse.get_pos()
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 exe.gameBoard.flag_tile(c,r)
-    print_board()
+    # print_board()
+    if (cheatMode == 1):
+        print_board2()
+    else:
+        print_board()
     gamestate = exe.checkWinLose()
 
     clock.tick(60)

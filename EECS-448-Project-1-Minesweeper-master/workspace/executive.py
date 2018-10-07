@@ -3,10 +3,9 @@ Tile class
 """
 
 from workspace.board import Board
-
+import copy
 
 class executive:
-
     """
     Execuitve class
     Intermidiet class between player (GUI) and board / tile objects
@@ -17,6 +16,8 @@ class executive:
         """
         ##Board Object
         self.gameBoard=Board()
+        self.cheatBoard=Board()
+
         ##Length of board
         self.length=length
         ##Width of board
@@ -63,4 +64,6 @@ class executive:
         self.setUpBoard()
         self.gameBoard.place_bomb()
         self.gameBoard.setAdjBomb()
+        self.cheatBoard=copy.deepcopy(self.gameBoard)
+
         return

@@ -25,6 +25,3 @@ class tile:
         self.isVisible = isVisible
         self.isFlagged = isFlaged
         self.adjBomb = adjBomb
-
-
-
