@@ -1,6 +1,5 @@
 """@package docstring
  Board file
-
 """
 import random
 from workspace.tile import tile
@@ -70,6 +69,7 @@ class Board:
                 self.board[e][f].isBomb = True
                 n = n + 1
         return self.board
+
 
 
 
@@ -210,4 +210,3 @@ class Board:
         for j in range(rows):
             for i in range(cols):
                 self.board[i][j].isVisible = True
-
