@@ -1,3 +1,6 @@
+
+Code Chefs originally had:
+--------------------------------
 https://www.pygame.org/
 
 We used pygames to draw our board and update it.
@@ -17,3 +20,40 @@ Tkinter tutorial from the python documentation used to learn widgets.
 http://www.doxygen.nl/
 
 Doxygen used to generate our documentation.
+-----------------------------------------------------
+Team448 used all that Code Chefs used plus the following
+
+Using a string for a text file name: 
+  https://stackoverflow.com/questions/5214578/python-print-string-to-text-file
+  
+Sound Effects:
+    Libraries:
+              -----
+    
+    
+    sounds:
+            
+                Cheater:
+                https://freesound.org/people/FuelStream/sounds/336276/
+                Author: FuelStream
+
+                Explosion:
+                https://freesound.org/people/jobro/sounds/35458/
+                Author: Jobro
+
+                Applause:
+                https://opengameart.org/content/applause
+                Author: Blender Foundation
+
+                Click:
+                https://www.noiseforfun.com/2013-sound-effects/click-switch/
+
+                Ding:
+                https://opengameart.org/content/bell-dingschimes
+                Author: PWL
+                
+                
+    
+
+  
+  
