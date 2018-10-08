@@ -4,7 +4,7 @@ To run this program, clone the repository:
 
 IMPORTANT!!!!!!!! 
 
--------> DELETE: the outer GUI folder and Documentation folder  <-------------
+-------> DELETE: the outer GUI folder, Workspace folder, and Documentation folder  <-------------
     -This is due to problems with Github, there is a GUI and documentation folder within the EECS-448-Project-1-Minesweeper-master
   
   ----------------------------------------------------------------------------------------------------------------------------------------- 
