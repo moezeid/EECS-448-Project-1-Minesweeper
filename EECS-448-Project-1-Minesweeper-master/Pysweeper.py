@@ -43,8 +43,16 @@ def print_board2():
             if exe.cheatBoard.board[j][i].isFlagged == True and exe.cheatBoard.board[j][i].isVisible == False:
                 screen.blit(flag, grid[j][i])
 
+
     pygame.draw.rect(screen, (255, 255, 255),
-                     ((column * 20 + MARGIN * column + MARGIN), 0, 100,50))
+                     ((column * 20 + MARGIN * column + MARGIN), 5, 100,20))
+    screen.blit(font.render('cheatmode!', True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+5, 8))
+    pygame.draw.rect(screen, (255, 255, 255),
+                     ((column * 20 + MARGIN * column + MARGIN), 30, 100, (row-1)*(20+MARGIN)-5))
+
+    screen.blit(font.render('Flag left:', True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+5, 32))
+    screen.blit(font.render(str(exe.gameBoard.num_bombs-exe.gameBoard.num_flagged), True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+70, 32))
+
     pygame.display.flip()
 
 
@@ -81,7 +89,16 @@ def print_board():
                 screen.blit(font.render(str(exe.gameBoard.board[j][i].adjBomb), True, BLACK), (temp))
             if exe.gameBoard.board[j][i].isFlagged == True and exe.gameBoard.board[j][i].isVisible == False:
                 screen.blit(flag,grid[j][i])
-    pygame.draw.rect(screen, (255, 255, 255), ((column * 20 + MARGIN * column + MARGIN), 0, 100, 50))
+
+    pygame.draw.rect(screen, (255, 255, 255),
+                     ((column * 20 + MARGIN * column + MARGIN), 5, 100,20))
+    screen.blit(font.render('cheatmode!', True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+5, 8))
+    pygame.draw.rect(screen, (255, 255, 255),
+                     ((column * 20 + MARGIN * column + MARGIN), 30, 100, (row-1)*(20+MARGIN)-5))
+
+    screen.blit(font.render('Flag left:', True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+5, 32))
+    screen.blit(font.render(str(exe.gameBoard.num_bombs-exe.gameBoard.num_flagged), True, (255, 0, 0)), (column * 20 + MARGIN * column + MARGIN+70, 32))
+    pygame.display.update()
     pygame.display.flip()
 
 
@@ -112,6 +129,7 @@ winSound = pygame.mixer.Sound("soundEffects/Applause.wav")
 loseSound = pygame.mixer.Sound("soundEffects/Explosion.wav")
 revealSound = pygame.mixer.Sound("soundEffects/Click.wav")
 flagSound = pygame.mixer.Sound("soundEffects/Ding-flag.wav")
+cheaterSound = pygame.mixer.Sound("soundEffects/Cheater.wav")
 
 while (incorrect == True):
     try:
@@ -206,19 +224,29 @@ while not program_end and gamestate == 0:
             if(event.button == 1):
                 pos = pygame.mouse.get_pos()
                 originalc = pos[0]
+                originald = pos[1]
                 c = pos[0] // (WIDTH + MARGIN)
                 r = pos[1] // (HEIGHT + MARGIN)
                 if(c >= column):
                     c = column - 1
                 if(r >= row):
                     r = row - 1
-                if (originalc > (WIDTH + MARGIN) * column):
+                if (originalc > (WIDTH + MARGIN) * column and originald<30):
                     if (cheatMode == 0):
                         cheatMode = 1
                         exe.cheatBoard.reveal_all()
+                        cheaterSound.play()
+                        cheaterSound.set_volume(1.0)
                         # print_board2()
                     else:
                         cheatMode = 0
+
+                elif (originalc > (WIDTH + MARGIN) * column and originald > 30):
+                    cheatMode = 0
+                    cheat1 = Tk()
+                    cheat1.iconbitmap('GUI/MemoryLeakLogo.ico')
+                    Label(cheat1, text="wrong area!", ).grid(row=0)
+                    cheat1.mainloop()
                 else:
                     if (cheatMode == 1):
                         cheat1 = Tk()
